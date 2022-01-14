@@ -21,7 +21,7 @@ class SearchShopViewController: UIViewController {
         topLabel.font = UIFont.boldSystemFont(ofSize: 20)
         topLabel.textColor = .white
         topLabel.backgroundColor = .systemYellow
-        topLabel.textAlignment = NSTextAlignment.center
+        topLabel.textAlignment = .center
         
         tabBar.tintColor = .systemYellow
         tabBar.selectedItem = listTabBarItem
