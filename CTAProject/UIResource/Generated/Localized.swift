@@ -9,8 +9,12 @@ import Foundation
 
 // swiftlint:disable function_parameter_count identifier_name line_length type_body_length
 public enum L10n {
-  /// ローカライズサンプル
-  public static let localizeSample = L10n.tr("Localizable", "LocalizeSample")
+  /// リスト
+  public static let favoriteTabBarItemTitle = L10n.tr("Localizable", "favoriteTabBarItemTitle")
+  /// リスト
+  public static let listTabBarItemTitle = L10n.tr("Localizable", "listTabBarItemTitle")
+  /// グルスポ
+  public static let topLabelText = L10n.tr("Localizable", "topLabelText")
 }
 // swiftlint:enable function_parameter_count identifier_name line_length type_body_length
 

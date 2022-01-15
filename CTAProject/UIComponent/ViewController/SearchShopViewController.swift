@@ -17,7 +17,7 @@ class SearchShopViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        topLabel.text = "グルスポ"
+        topLabel.text = L10n.topLabelText
         topLabel.font = UIFont.boldSystemFont(ofSize: 20)
         topLabel.textColor = .white
         topLabel.backgroundColor = .systemYellow
@@ -26,10 +26,10 @@ class SearchShopViewController: UIViewController {
         tabBar.tintColor = .systemYellow
         tabBar.selectedItem = listTabBarItem
         
-        listTabBarItem.title = "リスト"
+        listTabBarItem.title = L10n.listTabBarItemTitle
         listTabBarItem.image = UIImage(systemName: "list.dash")
         
-        favoriteTabBarItem.title = "リスト"
+        favoriteTabBarItem.title = L10n.favoriteTabBarItemTitle
         favoriteTabBarItem.image = UIImage(systemName: "star")
         
         // Do any additional setup after loading the view.
