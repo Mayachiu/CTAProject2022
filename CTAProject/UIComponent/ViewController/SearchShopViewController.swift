@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchShopViewController: UIViewController {
+final class SearchShopViewController: UIViewController {
 
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var tabBar: UITabBar!
