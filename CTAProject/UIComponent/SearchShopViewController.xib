@@ -14,7 +14,7 @@
                 <outlet property="favoriteTabBarItem" destination="E0J-lc-fBP" id="ef2-Vz-L01"/>
                 <outlet property="listTabBarItem" destination="Meb-Iz-PeX" id="B3N-AU-6nj"/>
                 <outlet property="tabBar" destination="dwt-jQ-mcK" id="WHL-H1-r9g"/>
-                <outlet property="topLabel" destination="boa-Xs-M2R" id="pKN-Bq-jKP"/>
+                <outlet property="topLabel" destination="X7k-vk-kaH" id="m88-Xk-5zd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,6 +23,18 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qG8-F7-DcS">
+                    <rect key="frame" x="0.0" y="100" width="375" height="567"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+                <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="5Y4-vY-crr">
+                    <rect key="frame" x="0.0" y="50" width="375" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="6hk-Po-9yC"/>
+                    </constraints>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
                 <tabBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwt-jQ-mcK">
                     <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -32,22 +44,47 @@
                         <tabBarItem title="Item" id="E0J-lc-fBP"/>
                     </items>
                 </tabBar>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="boa-Xs-M2R">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TxT-C3-l9k">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="グルスポ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7k-vk-kaH">
+                            <rect key="frame" x="153" y="19" width="69.5" height="21"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemYellowColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="SZ0-DP-Vyv"/>
+                        <constraint firstAttribute="bottom" secondItem="X7k-vk-kaH" secondAttribute="bottom" constant="10" id="arB-FX-U1c"/>
+                        <constraint firstItem="X7k-vk-kaH" firstAttribute="centerX" secondItem="TxT-C3-l9k" secondAttribute="centerX" id="kVp-xY-LGc"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" systemColor="systemYellowColor"/>
+            <constraints>
+                <constraint firstItem="5Y4-vY-crr" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Ann-rc-lSn"/>
+                <constraint firstItem="5Y4-vY-crr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="BFW-5U-06w"/>
+                <constraint firstItem="5Y4-vY-crr" firstAttribute="top" secondItem="TxT-C3-l9k" secondAttribute="bottom" id="Lvv-Bx-tPc"/>
+                <constraint firstItem="TxT-C3-l9k" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="MaL-aK-18v"/>
+                <constraint firstItem="TxT-C3-l9k" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="NyX-gm-xFC"/>
+                <constraint firstItem="TxT-C3-l9k" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Ytm-kC-25W"/>
+                <constraint firstAttribute="bottom" secondItem="qG8-F7-DcS" secondAttribute="bottom" id="ewW-xD-bkO"/>
+                <constraint firstItem="qG8-F7-DcS" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="gS1-6d-1je"/>
+                <constraint firstItem="qG8-F7-DcS" firstAttribute="top" secondItem="5Y4-vY-crr" secondAttribute="bottom" id="nOk-Gh-wYV"/>
+                <constraint firstItem="qG8-F7-DcS" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="vG8-Jf-1sa"/>
+            </constraints>
             <point key="canvasLocation" x="140" y="129.98500749625188"/>
         </view>
     </objects>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
