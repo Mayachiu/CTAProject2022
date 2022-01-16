@@ -8,7 +8,7 @@ fi
 
 if which mint >/dev/null; then
   rm -f $SRCROOT/Generated/MockResults.swift
-  mint run mockolo mockolo --sourcedirs $SRCROOT/CTAProject --destination $SRCROOT/Generated/MockResults.swift
+  mint run mockolo mockolo --sourcedirs $SRCROOT/CTAProject --destination $SRCROOT/CTAProject/Generated/MockResults.swift
 else
   echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
 fi
