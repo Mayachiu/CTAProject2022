@@ -32,6 +32,7 @@ final class SearchShopViewController: UIViewController {
         favoriteTabBarItem.title = L10n.favoriteTabBarItemTitle
         favoriteTabBarItem.image = UIImage(systemName: "star")
         
+        //サンプル用のキーワード"寿司"
         APIClient.getAPI(searchWord: "寿司", completion: { result in
             switch result {
             case .success(let response):

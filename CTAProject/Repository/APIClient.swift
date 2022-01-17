@@ -10,6 +10,7 @@ enum APIClient {
     static func getAPI(searchWord: String, completion: @escaping(Result<HotPepper, APIError>) -> Void )  {
         let encodedSearchWord = searchWord.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
         
+        //別ファイルからAPIキー読み込み
         let APIKey = MyAPIKey.myAPIKey
         guard let url = URL(string: "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=" + APIKey + "&format=json&keyword=" + String(encodedSearchWord!)) else { return completion(.failure(.textEncodingError)) }
         
