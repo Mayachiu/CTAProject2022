@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 enum APIClient {
     static func getAPI(searchWord: String, completion: @escaping(Result<HotPepper, APIError>) -> Void )  {
         let encodedSearchWord = searchWord.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
