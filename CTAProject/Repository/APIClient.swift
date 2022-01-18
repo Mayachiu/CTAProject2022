@@ -18,9 +18,9 @@ enum APIClient {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        let task = URLSession.shared.dataTask(with: url) { (data, responds, err) in
-            if let err = err {
-                print("情報の取得に失敗しました。:", err)
+        let task = URLSession.shared.dataTask(with: url) { (data, responds, error) in
+            if let error = error {
+                print("情報の取得に失敗しました。:", error)
                 return
             }
             
@@ -29,9 +29,9 @@ enum APIClient {
                     let hotpepper = try JSONDecoder().decode(HotPepper.self, from: data)
                     completion(.success(hotpepper))
                     print("json:", hotpepper)
-                } catch(let err) {
+                } catch(let error) {
                     completion(.failure(.decodeError))
-                    print("情報の取得に失敗しました。:", err)
+                    print("情報の取得に失敗しました。:", error)
                 }
             }
         }
