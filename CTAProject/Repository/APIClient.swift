@@ -33,15 +33,11 @@ enum APIClient {
                     completion(.failure(.decodeError))
                     print("情報の取得に失敗しました。:", err)
                 }
-                
             }
         }
-        
         task.resume()
-        
         return
     }
-    
 }
 
 enum APIError: Error {
