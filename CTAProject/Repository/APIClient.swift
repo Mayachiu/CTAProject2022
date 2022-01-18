@@ -39,9 +39,3 @@ enum APIClient {
         return
     }
 }
-
-enum APIError: Error {
-    case textEncodingError
-    case decodeError
-}
-
