@@ -35,8 +35,8 @@ final class SearchShopViewController: UIViewController {
         //サンプル用のキーワード"寿司"
         APIClient.getAPI(searchWord: "寿司", completion: { result in
             switch result {
-            case .success(let response):
-                print(response)
+            case .success(let hotpepperResponse):
+                print(hotpepperResponse)
             case .failure(let error):
                 print(error)
             }
