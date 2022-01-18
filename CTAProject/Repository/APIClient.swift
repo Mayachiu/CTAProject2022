@@ -29,9 +29,9 @@ enum APIClient {
                     let hotpepper = try JSONDecoder().decode(HotPepper.self, from: data)
                     completion(.success(hotpepper))
                     print("json:", hotpepper)
-                } catch(let error) {
+                } catch {
                     completion(.failure(.decodeError))
-                    print("情報の取得に失敗しました。:", error)
+                    print("デコードに失敗しました。:", error)
                 }
             }
         }
