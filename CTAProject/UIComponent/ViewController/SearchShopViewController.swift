@@ -16,21 +16,8 @@ final class SearchShopViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        topLabel.text = L10n.topLabelText
-        topLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        topLabel.textColor = .white
-        topLabel.backgroundColor = .systemYellow
-        topLabel.textAlignment = .center
-        
-        tabBar.tintColor = .systemYellow
+
         tabBar.selectedItem = listTabBarItem
-        
-        listTabBarItem.title = L10n.listTabBarItemTitle
-        listTabBarItem.image = UIImage(systemName: "list.dash")
-        
-        favoriteTabBarItem.title = L10n.favoriteTabBarItemTitle
-        favoriteTabBarItem.image = UIImage(systemName: "star")
         
         //サンプル用のキーワード"寿司"
         APIClient.getAPI(searchWord: "寿司", completion: { result in
