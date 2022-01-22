@@ -14,7 +14,7 @@ final class SearchShopViewController: UIViewController {
     @IBOutlet private weak var listTabBarItem: UITabBarItem!
     @IBOutlet private weak var favoriteTabBarItem: UITabBarItem!
     @IBOutlet private weak var shopTableView: UITableView!
-    private var shop:[Shop] = []
+    private var shops:[Shop] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ final class SearchShopViewController: UIViewController {
         APIClient.getAPI(searchWord: "寿司", completion: { result in
             switch result {
             case .success(let hotpepperResponse):
-                self.shop = hotpepperResponse.results.shop
+                self.shops = hotpepperResponse.results.shop
                 //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
                 DispatchQueue.main.async {
                     self.shopTableView.reloadData()
@@ -62,12 +62,12 @@ extension SearchShopViewController: UITableViewDelegate {
 // MARK: TableViewDataSource
 extension SearchShopViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return shop.count
+        return shops.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ShopTableViewCell
-        cell.configureCell(shop: shop[indexPath.row])
+        cell.configureCell(shop: shops[indexPath.row])
         return cell
     }
 }
