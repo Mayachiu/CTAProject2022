@@ -9,12 +9,12 @@ import UIKit
 
 final class SearchShopViewController: UIViewController {
 
-    @IBOutlet weak var topLabel: UILabel!
-    @IBOutlet weak var tabBar: UITabBar!
-    @IBOutlet weak var listTabBarItem: UITabBarItem!
-    @IBOutlet weak var favoriteTabBarItem: UITabBarItem!
-    @IBOutlet weak var shopTableView: UITableView!
-    var shop:[Shop] = []
+    @IBOutlet private weak var topLabel: UILabel!
+    @IBOutlet private weak var tabBar: UITabBar!
+    @IBOutlet private weak var listTabBarItem: UITabBarItem!
+    @IBOutlet private weak var favoriteTabBarItem: UITabBarItem!
+    @IBOutlet private weak var shopTableView: UITableView!
+    private var shop:[Shop] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

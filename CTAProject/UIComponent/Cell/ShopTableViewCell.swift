@@ -9,10 +9,10 @@ import UIKit
 
 final class ShopTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var logoImageView: UIImageView!
-    @IBOutlet weak var shopNameLabel: UILabel!
-    @IBOutlet weak var budgetLabel: UILabel!
-    @IBOutlet weak var genreStationLabel: UILabel!
+    @IBOutlet private weak var logoImageView: UIImageView!
+    @IBOutlet private weak var shopNameLabel: UILabel!
+    @IBOutlet private weak var budgetLabel: UILabel!
+    @IBOutlet private weak var genreStationLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
