@@ -9,10 +9,10 @@ import UIKit
 
 final class ShopTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var logoImage: UIImageView!
-    @IBOutlet weak var shopName: UILabel!
-    @IBOutlet weak var budget: UILabel!
-    @IBOutlet weak var genreStation: UILabel!
+    @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var shopNameLabel: UILabel!
+    @IBOutlet weak var budgetLabel: UILabel!
+    @IBOutlet weak var genreStationLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,9 +26,9 @@ final class ShopTableViewCell: UITableViewCell {
     }
     
     func configureCell(shop: Shop) {
-        logoImage.image = UIImage(url: shop.logoImage)
-        shopName.text = shop.name
-        budget.text = shop.budget.name
-        genreStation.text = "\(shop.genre.name)" + " / " + "\(shop.stationName)"
+        logoImageView.image = UIImage(url: shop.logoImage)
+        shopNameLabel.text = shop.name
+        budgetLabel.text = shop.budget.name
+        genreStationLabel.text = "\(shop.genre.name)" + " / " + "\(shop.stationName)"
     }
 }
