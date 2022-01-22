@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ShopTableViewCell: UITableViewCell {
+final class ShopTableViewCell: UITableViewCell {
 
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var shopName: UILabel!
