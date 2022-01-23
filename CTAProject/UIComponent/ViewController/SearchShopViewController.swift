@@ -14,7 +14,7 @@ final class SearchShopViewController: UIViewController {
     @IBOutlet private weak var listTabBarItem: UITabBarItem!
     @IBOutlet private weak var favoriteTabBarItem: UITabBarItem!
     @IBOutlet private weak var shopTableView: UITableView!
-    private var shops:[Shop] = []
+    private var shops: [Shop] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
