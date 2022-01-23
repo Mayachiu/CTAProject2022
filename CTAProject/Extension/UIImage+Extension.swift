@@ -17,7 +17,7 @@ extension UIImage {
             self.init(data: data)
         } catch {
             print("Error : \(error.localizedDescription)")
+            return nil
         }
-        self.init()
     }
 }
