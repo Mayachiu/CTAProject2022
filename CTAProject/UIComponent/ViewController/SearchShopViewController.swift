@@ -21,7 +21,7 @@ final class SearchShopViewController: UIViewController {
 
         tabBar.selectedItem = listTabBarItem
         
-        shopTableView.register(UINib(nibName: UITableViewCell.shopTableViewCellNibName, bundle: nil), forCellReuseIdentifier: UITableViewCell.shopTableViewCellIdentifier)
+        shopTableView.register(UINib(nibName: ShopTableViewCell.nibName, bundle: nil), forCellReuseIdentifier: ShopTableViewCell.identifier)
         shopTableView.delegate = self
         shopTableView.dataSource = self
         
@@ -66,7 +66,7 @@ extension SearchShopViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.shopTableViewCellIdentifier, for: indexPath) as! ShopTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
         cell.configureCell(shop: shops[indexPath.row])
         return cell
     }
