@@ -9,20 +9,31 @@ import UIKit
 
 final class SearchShopViewController: UIViewController {
 
-    @IBOutlet weak var topLabel: UILabel!
-    @IBOutlet weak var tabBar: UITabBar!
-    @IBOutlet weak var listTabBarItem: UITabBarItem!
-    @IBOutlet weak var favoriteTabBarItem: UITabBarItem!
+    @IBOutlet private weak var topLabel: UILabel!
+    @IBOutlet private weak var tabBar: UITabBar!
+    @IBOutlet private weak var listTabBarItem: UITabBarItem!
+    @IBOutlet private weak var favoriteTabBarItem: UITabBarItem!
+    @IBOutlet private weak var shopTableView: UITableView!
+    private var shops: [Shop] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tabBar.selectedItem = listTabBarItem
         
+        shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
+        shopTableView.delegate = self
+        shopTableView.dataSource = self
+        
         //サンプル用のキーワード"寿司"
         APIClient.getAPI(searchWord: "寿司", completion: { result in
             switch result {
             case .success(let hotpepperResponse):
+                self.shops = hotpepperResponse.results.shop
+                //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
+                DispatchQueue.main.async {
+                    self.shopTableView.reloadData()
+                }
                 print(hotpepperResponse)
             case .failure(let error):
                 print(error)
@@ -42,4 +53,21 @@ final class SearchShopViewController: UIViewController {
     }
     */
 
+}
+
+// MARK: TableViewDelegate
+extension SearchShopViewController: UITableViewDelegate {
+}
+
+// MARK: TableViewDataSource
+extension SearchShopViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return shops.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
+        cell.configureCell(shop: shops[indexPath.row])
+        return cell
+    }
 }
