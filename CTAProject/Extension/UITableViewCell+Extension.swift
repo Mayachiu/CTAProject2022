@@ -8,10 +8,10 @@
 import UIKit
 
 extension UITableViewCell {
-    static var nibName: String {
-        String(describing: self) //クラス名が取得できる
-    }
     static var identifier: String {
         String(describing: self) //identifierをCellのクラス名にする
+    }
+    static var nib: UINib {
+        UINib(nibName: identifier, bundle: nil) 
     }
 }

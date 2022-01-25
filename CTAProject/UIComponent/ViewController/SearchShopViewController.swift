@@ -21,7 +21,7 @@ final class SearchShopViewController: UIViewController {
 
         tabBar.selectedItem = listTabBarItem
         
-        shopTableView.register(UINib(nibName: ShopTableViewCell.nibName, bundle: nil), forCellReuseIdentifier: ShopTableViewCell.identifier)
+        shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
         shopTableView.delegate = self
         shopTableView.dataSource = self
         
