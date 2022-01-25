@@ -14,6 +14,8 @@ final class SearchShopViewController: UIViewController {
     @IBOutlet private weak var listTabBarItem: UITabBarItem!
     @IBOutlet private weak var favoriteTabBarItem: UITabBarItem!
     @IBOutlet private weak var shopTableView: UITableView!
+    @IBOutlet private weak var SearchShopBar: UISearchBar!
+    
     private var shops: [Shop] = []
     
     override func viewDidLoad() {
@@ -25,20 +27,6 @@ final class SearchShopViewController: UIViewController {
         shopTableView.delegate = self
         shopTableView.dataSource = self
         
-        //サンプル用のキーワード"寿司"
-        APIClient.getAPI(searchWord: "寿司", completion: { result in
-            switch result {
-            case .success(let hotpepperResponse):
-                self.shops = hotpepperResponse.results.shop
-                //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
-                DispatchQueue.main.async {
-                    self.shopTableView.reloadData()
-                }
-                print(hotpepperResponse)
-            case .failure(let error):
-                print(error)
-            }
-        })
         // Do any additional setup after loading the view.
     }
 
@@ -69,5 +57,33 @@ extension SearchShopViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
         cell.configureCell(shop: shops[indexPath.row])
         return cell
+    }
+}
+
+extension SearchShopViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        SearchShopBar.resignFirstResponder()
+        guard let searchWord = SearchShopBar.text else {
+            return
+        }
+        //デバックがやりやすいように一旦2文字
+        if searchWord.count >= 2 {
+            let alertView:UIView = UINib(nibName: "AlertView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! UIView
+            view.addSubview(alertView)
+        } else {
+            APIClient.getAPI(searchWord: searchWord, completion: { result in
+                switch result {
+                case .success(let hotpepperResponse):
+                    self.shops = hotpepperResponse.results.shop
+                    //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
+                    DispatchQueue.main.async {
+                        self.shopTableView.reloadData()
+                    }
+                    print(hotpepperResponse)
+                case .failure(let error):
+                    print(error)
+                }
+            })
+        }
     }
 }
