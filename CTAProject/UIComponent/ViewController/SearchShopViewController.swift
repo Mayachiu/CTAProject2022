@@ -17,6 +17,7 @@ final class SearchShopViewController: UIViewController {
     @IBOutlet private weak var SearchShopBar: UISearchBar!
     
     private var shops: [Shop] = []
+    private var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,13 @@ final class SearchShopViewController: UIViewController {
         shopTableView.delegate = self
         shopTableView.dataSource = self
         
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        activityIndicator.layer.cornerRadius = activityIndicator.frame.size.width * 0.1
+        activityIndicator.backgroundColor = .systemGray5
+        activityIndicator.style = .large
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        self.view.addSubview(activityIndicator)
         // Do any additional setup after loading the view.
     }
 
@@ -71,6 +79,7 @@ extension SearchShopViewController: UISearchBarDelegate {
             let alertView:UIView = UINib(nibName: "AlertView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! UIView
             view.addSubview(alertView)
         } else {
+            self.activityIndicator.startAnimating()
             APIClient.getAPI(searchWord: searchWord, completion: { result in
                 switch result {
                 case .success(let hotpepperResponse):
@@ -78,6 +87,7 @@ extension SearchShopViewController: UISearchBarDelegate {
                     //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
                     DispatchQueue.main.async {
                         self.shopTableView.reloadData()
+                        self.activityIndicator.stopAnimating()
                     }
                     print(hotpepperResponse)
                 case .failure(let error):
