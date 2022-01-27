@@ -76,7 +76,7 @@ extension SearchShopViewController: UISearchBarDelegate {
         }
         //デバックがやりやすいように一旦2文字
         if searchWord.count >= 2 {
-            let alertView:UIView = UINib(nibName: "AlertView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! UIView
+            let alertView:UIView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
             view.addSubview(alertView)
         } else {
             self.activityIndicator.startAnimating()
