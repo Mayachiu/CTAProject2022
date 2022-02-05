@@ -77,8 +77,8 @@ extension SearchShopViewController: UISearchBarDelegate {
         guard let searchWord = SearchShopBar.text else {
             return
         }
-        //デバックがやりやすいように一旦2文字
-        if searchWord.count >= 2 {
+        //50文字以上でアラート表示
+        if searchWord.count >= 50 {
             let alertView:UIView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
             view.addSubview(alertView)
         } else {
