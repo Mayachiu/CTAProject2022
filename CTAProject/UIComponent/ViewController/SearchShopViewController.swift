@@ -28,6 +28,11 @@ final class SearchShopViewController: UIViewController {
         shopTableView.delegate = self
         shopTableView.dataSource = self
         
+        displayIndicator()
+        // Do any additional setup after loading the view.
+    }
+
+    func displayIndicator() {
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         activityIndicator.layer.cornerRadius = activityIndicator.frame.size.width * 0.1
         activityIndicator.backgroundColor = .systemGray5
@@ -35,9 +40,7 @@ final class SearchShopViewController: UIViewController {
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         self.view.addSubview(activityIndicator)
-        // Do any additional setup after loading the view.
     }
-
 
     /*
     // MARK: - Navigation
