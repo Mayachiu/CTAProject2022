@@ -14,7 +14,7 @@ final class SearchShopViewController: UIViewController {
     @IBOutlet private weak var listTabBarItem: UITabBarItem!
     @IBOutlet private weak var favoriteTabBarItem: UITabBarItem!
     @IBOutlet private weak var shopTableView: UITableView!
-    @IBOutlet private weak var SearchShopBar: UISearchBar!
+    @IBOutlet private weak var searchShopBar: UISearchBar!
     
     private var shops: [Shop] = []
     private var activityIndicator = UIActivityIndicatorView()
@@ -73,8 +73,8 @@ extension SearchShopViewController: UITableViewDataSource {
 
 extension SearchShopViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        SearchShopBar.resignFirstResponder()
-        guard let searchWord = SearchShopBar.text else {
+        searchShopBar.resignFirstResponder()
+        guard let searchWord = searchShopBar.text else {
             return
         }
         //50文字以上でアラート表示

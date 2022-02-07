@@ -11,9 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchShopViewController" customModule="CTAProject" customModuleProvider="target">
             <connections>
-                <outlet property="SearchShopBar" destination="5Y4-vY-crr" id="dJP-iy-nTI"/>
                 <outlet property="favoriteTabBarItem" destination="E0J-lc-fBP" id="ef2-Vz-L01"/>
                 <outlet property="listTabBarItem" destination="Meb-Iz-PeX" id="B3N-AU-6nj"/>
+                <outlet property="searchShopBar" destination="5Y4-vY-crr" id="dJP-iy-nTI"/>
                 <outlet property="shopTableView" destination="qG8-F7-DcS" id="vAf-mM-WRp"/>
                 <outlet property="tabBar" destination="dwt-jQ-mcK" id="WHL-H1-r9g"/>
                 <outlet property="topLabel" destination="X7k-vk-kaH" id="m88-Xk-5zd"/>
