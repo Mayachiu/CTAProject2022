@@ -74,9 +74,7 @@ extension SearchShopViewController: UITableViewDataSource {
 extension SearchShopViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchShopBar.resignFirstResponder()
-        guard let searchWord = searchShopBar.text else {
-            return
-        }
+        guard let searchWord = searchShopBar.text else { return }
         //50文字以上でアラート表示
         if searchWord.count >= 50 {
             let alertView:UIView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
