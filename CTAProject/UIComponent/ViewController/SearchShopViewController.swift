@@ -7,6 +7,7 @@
 
 import UIKit
 import PKHUD
+import SwiftMessages
 
 final class SearchShopViewController: UIViewController {
 
@@ -62,8 +63,16 @@ extension SearchShopViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchShopBar.resignFirstResponder()
         guard let searchWord = searchShopBar.text else { return }
-        //50文字以上でアラート表示
-        if searchWord.count >= 50 {
+        //0字でポップアップ表示、50文字以上でアラート表示
+        if searchWord.count == 0 {
+            let popupView = MessageView.viewFromNib(layout: .cardView)
+            popupView.configureTheme(.warning)
+            popupView.configureContent(title: "文字が入力されていません。",body: "")
+            popupView.button?.isHidden = true
+            var config = SwiftMessages.Config()
+            config.presentationStyle = .center
+            SwiftMessages.show(config: config, view: popupView)
+        } else if searchWord.count >= 50 {
             let alertView:UIView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
             view.addSubview(alertView)
         } else {

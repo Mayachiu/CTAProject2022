@@ -5,6 +5,9 @@ PODS:
   - RxSwift (6.2.0)
   - SwiftGen (6.5.1)
   - SwiftLint (0.45.1)
+  - SwiftMessages (9.0.6):
+    - SwiftMessages/App (= 9.0.6)
+  - SwiftMessages/App (9.0.6)
   - Unio (0.11.0):
     - RxRelay (~> 6.0)
     - RxSwift (~> 6.0)
@@ -13,6 +16,7 @@ DEPENDENCIES:
   - PKHUD
   - SwiftGen
   - SwiftLint
+  - SwiftMessages
   - Unio
 
 SPEC REPOS:
@@ -22,6 +26,7 @@ SPEC REPOS:
     - RxSwift
     - SwiftGen
     - SwiftLint
+    - SwiftMessages
     - Unio
 
 SPEC CHECKSUMS:
@@ -30,8 +35,9 @@ SPEC CHECKSUMS:
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: 06ac37e4d38c7068e0935bb30cda95f093bec761
+  SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
   Unio: 6e57bd33dbcf38d281b0b420f75c0eae3bef0cf3
 
-PODFILE CHECKSUM: 09a46e4280b2cf5c38e9f08b0aac71b90bdcfcee
+PODFILE CHECKSUM: 191bc69d77092c7c474568bb0c03e906c63edb68
 
 COCOAPODS: 1.10.2

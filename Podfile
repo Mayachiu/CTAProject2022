@@ -8,6 +8,7 @@ target 'CTAProject' do
   pod 'SwiftGen'
   pod 'Unio'
   pod 'PKHUD'
+  pod 'SwiftMessages'
   # Pods for CTAProject
 
   target 'CTAProjectTests' do
