@@ -67,28 +67,34 @@ extension SearchShopViewController: UISearchBarDelegate {
         if searchWord.count == 0 {
             let popupView = MessageView.viewFromNib(layout: .cardView)
             popupView.configureTheme(.warning)
-            popupView.configureContent(title: "文字が入力されていません。",body: "")
+            popupView.configureContent(title: L10n.noCharactersInput, body: "")
             popupView.button?.isHidden = true
+            popupView.backgroundView.backgroundColor = .systemYellow
             var config = SwiftMessages.Config()
             config.presentationStyle = .center
             SwiftMessages.show(config: config, view: popupView)
         } else if searchWord.count >= 50 {
-            let alertView:UIView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+            let alertView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
             view.addSubview(alertView)
         } else {
             HUD.show(.progress)
-            APIClient.getAPI(searchWord: searchWord, completion: { result in
+            APIClient.searchShop(searchWord: searchWord, completion: { [weak self] result in
+                guard let me = self else { return }
                 switch result {
                 case .success(let hotpepperResponse):
-                    self.shops = hotpepperResponse.results.shop
+                    me.shops = hotpepperResponse.results.shop
                     //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
                     DispatchQueue.main.async {
-                        self.shopTableView.reloadData()
+                        me.shopTableView.reloadData()
                         HUD.hide()
                     }
                     print(hotpepperResponse)
                 case .failure(let error):
                     print(error)
+                    HUD.show(.error)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        HUD.hide()
+                    }
                 }
             })
         }
