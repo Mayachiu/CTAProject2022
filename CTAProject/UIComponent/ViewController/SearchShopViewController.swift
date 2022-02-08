@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PKHUD
 
 final class SearchShopViewController: UIViewController {
 
@@ -17,7 +18,6 @@ final class SearchShopViewController: UIViewController {
     @IBOutlet private weak var searchShopBar: UISearchBar!
     
     private var shops: [Shop] = []
-    private var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,21 +27,8 @@ final class SearchShopViewController: UIViewController {
         shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
         shopTableView.delegate = self
         shopTableView.dataSource = self
-        
-        displayIndicator()
         // Do any additional setup after loading the view.
     }
-
-    func displayIndicator() {
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
-        activityIndicator.layer.cornerRadius = activityIndicator.frame.size.width * 0.1
-        activityIndicator.backgroundColor = .systemGray5
-        activityIndicator.style = .large
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        self.view.addSubview(activityIndicator)
-    }
-
     /*
     // MARK: - Navigation
 
@@ -80,7 +67,7 @@ extension SearchShopViewController: UISearchBarDelegate {
             let alertView:UIView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
             view.addSubview(alertView)
         } else {
-            self.activityIndicator.startAnimating()
+            HUD.show(.progress)
             APIClient.getAPI(searchWord: searchWord, completion: { result in
                 switch result {
                 case .success(let hotpepperResponse):
@@ -88,7 +75,7 @@ extension SearchShopViewController: UISearchBarDelegate {
                     //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
                     DispatchQueue.main.async {
                         self.shopTableView.reloadData()
-                        self.activityIndicator.stopAnimating()
+                        HUD.hide()
                     }
                     print(hotpepperResponse)
                 case .failure(let error):

@@ -7,7 +7,7 @@ target 'CTAProject' do
   pod 'SwiftLint'
   pod 'SwiftGen'
   pod 'Unio'
-
+  pod 'PKHUD'
   # Pods for CTAProject
 
   target 'CTAProjectTests' do
