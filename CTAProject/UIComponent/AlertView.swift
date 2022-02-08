@@ -17,6 +17,6 @@ final class AlertView: UIView {
     }
     */
     @IBAction func closeButtonClicked(_ sender: Any) {
-        self.removeFromSuperview()
+        removeFromSuperview()
     }
 }
