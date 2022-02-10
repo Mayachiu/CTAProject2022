@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="favoriteTabBarItem" destination="E0J-lc-fBP" id="ef2-Vz-L01"/>
                 <outlet property="listTabBarItem" destination="Meb-Iz-PeX" id="B3N-AU-6nj"/>
+                <outlet property="searchShopBar" destination="5Y4-vY-crr" id="dJP-iy-nTI"/>
                 <outlet property="shopTableView" destination="qG8-F7-DcS" id="vAf-mM-WRp"/>
                 <outlet property="tabBar" destination="dwt-jQ-mcK" id="WHL-H1-r9g"/>
                 <outlet property="topLabel" destination="X7k-vk-kaH" id="m88-Xk-5zd"/>
@@ -35,23 +36,25 @@
                         <constraint firstAttribute="height" constant="50" id="6hk-Po-9yC"/>
                     </constraints>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="E2o-HC-75u"/>
+                    </connections>
                 </searchBar>
                 <tabBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwt-jQ-mcK">
                     <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <tabBarItem title="リスト" image="list.dash" catalog="system" id="Meb-Iz-PeX"/>
-                        <tabBarItem title="リスト" image="star" catalog="system" id="E0J-lc-fBP"/>
+                        <tabBarItem title="" image="list.dash" catalog="system" id="Meb-Iz-PeX"/>
+                        <tabBarItem title="" image="star" catalog="system" id="E0J-lc-fBP"/>
                     </items>
-                    <color key="selectedImageTintColor" systemColor="systemYellowColor"/>
                 </tabBar>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TxT-C3-l9k">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="グルスポ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7k-vk-kaH">
-                            <rect key="frame" x="146.5" y="16" width="82" height="24"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7k-vk-kaH">
+                            <rect key="frame" x="187.5" y="40" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>

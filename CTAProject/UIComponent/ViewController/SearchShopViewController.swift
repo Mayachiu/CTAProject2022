@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import PKHUD
+import SwiftMessages
 
 final class SearchShopViewController: UIViewController {
 
@@ -14,35 +16,25 @@ final class SearchShopViewController: UIViewController {
     @IBOutlet private weak var listTabBarItem: UITabBarItem!
     @IBOutlet private weak var favoriteTabBarItem: UITabBarItem!
     @IBOutlet private weak var shopTableView: UITableView!
+    @IBOutlet private weak var searchShopBar: UISearchBar!
+    
     private var shops: [Shop] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        topLabel.text = L10n.topLabelText
+        topLabel.textColor = .white
+        listTabBarItem.title = L10n.listTabBarItemTitle
+        favoriteTabBarItem.title = L10n.favoriteTabBarItemTitle
+        
         tabBar.selectedItem = listTabBarItem
+        tabBar.tintColor = .systemYellow
         
         shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
         shopTableView.delegate = self
         shopTableView.dataSource = self
-        
-        //サンプル用のキーワード"寿司"
-        APIClient.getAPI(searchWord: "寿司", completion: { result in
-            switch result {
-            case .success(let hotpepperResponse):
-                self.shops = hotpepperResponse.results.shop
-                //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
-                DispatchQueue.main.async {
-                    self.shopTableView.reloadData()
-                }
-                print(hotpepperResponse)
-            case .failure(let error):
-                print(error)
-            }
-        })
         // Do any additional setup after loading the view.
     }
-
-
     /*
     // MARK: - Navigation
 
@@ -69,5 +61,47 @@ extension SearchShopViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
         cell.configureCell(shop: shops[indexPath.row])
         return cell
+    }
+}
+
+extension SearchShopViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchShopBar.resignFirstResponder()
+        guard let searchWord = searchShopBar.text else { return }
+        //0字でポップアップ表示、50文字以上でアラート表示
+        if searchWord.count == 0 {
+            let popupView = MessageView.viewFromNib(layout: .cardView)
+            popupView.configureTheme(.warning)
+            popupView.configureContent(title: L10n.noCharactersInput, body: "")
+            popupView.button?.isHidden = true
+            popupView.backgroundView.backgroundColor = .systemYellow
+            var config = SwiftMessages.Config()
+            config.presentationStyle = .center
+            SwiftMessages.show(config: config, view: popupView)
+        } else if searchWord.count >= 50 {
+            let alertView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+            view.addSubview(alertView)
+        } else {
+            HUD.show(.progress)
+            APIClient.searchShop(searchWord: searchWord, completion: { [weak self] result in
+                guard let me = self else { return }
+                switch result {
+                case .success(let hotpepperResponse):
+                    me.shops = hotpepperResponse.results.shop
+                    //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
+                    DispatchQueue.main.async {
+                        me.shopTableView.reloadData()
+                        HUD.hide()
+                    }
+                    print(hotpepperResponse)
+                case .failure(let error):
+                    print(error)
+                    HUD.show(.error)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        HUD.hide()
+                    }
+                }
+            })
+        }
     }
 }

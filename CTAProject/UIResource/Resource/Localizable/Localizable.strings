@@ -1,5 +1,6 @@
-
-// MARK: - サンプル
 "topLabelText" = "グルスポ";
 "listTabBarItemTitle" = "リスト";
-"favoriteTabBarItemTitle" = "リスト";
+"favoriteTabBarItemTitle" = "お気に入り";
+"noCharactersInput" = "文字が入力されていません。";
+"characterAlertText" = "文字数が50文字を超過しています。";
+"closeButtonTitle" = "閉じる";
