@@ -22,8 +22,13 @@ final class SearchShopViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        topLabel.text = L10n.topLabelText
+        topLabel.textColor = .white
+        listTabBarItem.title = L10n.listTabBarItemTitle
+        favoriteTabBarItem.title = L10n.favoriteTabBarItemTitle
+        
         tabBar.selectedItem = listTabBarItem
+        tabBar.tintColor = .systemYellow
         
         shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
         shopTableView.delegate = self

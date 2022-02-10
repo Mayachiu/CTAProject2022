@@ -9,8 +9,18 @@ import Foundation
 
 // swiftlint:disable function_parameter_count identifier_name line_length type_body_length
 public enum L10n {
+  /// 文字数が50文字を超過しています。
+  public static let characterAlertText = L10n.tr("Localizable", "characterAlertText")
+  /// 閉じる
+  public static let closeButtonTitle = L10n.tr("Localizable", "closeButtonTitle")
+  /// お気に入り
+  public static let favoriteTabBarItemTitle = L10n.tr("Localizable", "favoriteTabBarItemTitle")
+  /// リスト
+  public static let listTabBarItemTitle = L10n.tr("Localizable", "listTabBarItemTitle")
   /// 文字が入力されていません。
   public static let noCharactersInput = L10n.tr("Localizable", "noCharactersInput")
+  /// グルスポ
+  public static let topLabelText = L10n.tr("Localizable", "topLabelText")
 }
 // swiftlint:enable function_parameter_count identifier_name line_length type_body_length
 

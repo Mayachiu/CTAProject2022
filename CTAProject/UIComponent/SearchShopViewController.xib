@@ -44,18 +44,17 @@
                     <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <tabBarItem title="リスト" image="list.dash" catalog="system" id="Meb-Iz-PeX"/>
-                        <tabBarItem title="リスト" image="star" catalog="system" id="E0J-lc-fBP"/>
+                        <tabBarItem title="" image="list.dash" catalog="system" id="Meb-Iz-PeX"/>
+                        <tabBarItem title="" image="star" catalog="system" id="E0J-lc-fBP"/>
                     </items>
-                    <color key="selectedImageTintColor" systemColor="systemYellowColor"/>
                 </tabBar>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TxT-C3-l9k">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="グルスポ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7k-vk-kaH">
-                            <rect key="frame" x="146.5" y="16" width="82" height="24"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7k-vk-kaH">
+                            <rect key="frame" x="187.5" y="40" width="0.0" height="0.0"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
