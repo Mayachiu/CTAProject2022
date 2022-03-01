@@ -9,6 +9,11 @@ target 'CTAProject' do
   pod 'Unio'
   pod 'PKHUD'
   pod 'SwiftMessages'
+  pod 'RxCocoa'
+  pod 'RxDataSources'
+  pod 'RealmSwift'
+  pod 'Moya'
+  pod 'SDWebImage'
   # Pods for CTAProject
 
   target 'CTAProjectTests' do
