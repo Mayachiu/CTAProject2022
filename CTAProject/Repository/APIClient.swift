@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum APIClient {
-    static func searchShop(searchWord: String, completion: @escaping(Result<HotPepper, APIError>) -> Void )  {
+final class APIClient: HotPepperAPIType {
+    func searchShop(searchWord: String, completion: @escaping(Result<HotPepper, APIError>) -> Void )  {
         let encodedSearchWord = searchWord.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
         
         //別ファイルからAPIキー読み込み

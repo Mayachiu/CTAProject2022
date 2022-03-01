@@ -22,7 +22,7 @@ final class SearchShopViewController: UIViewController {
     
     private var shops: [Shop] = []
     
-    private let searchShopViewModel = SearchShopViewModel()
+    private let searchShopViewModel = SearchShopViewModel(hotPepperAPI: APIClient())
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {

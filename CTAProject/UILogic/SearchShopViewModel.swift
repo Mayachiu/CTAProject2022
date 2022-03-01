@@ -43,13 +43,13 @@ class SearchShopViewModel: SearchShopViewModelInput, SearchShopViewModelOutput {
     //property
     private let disposeBag = DisposeBag()
     
-    init() {
+    init(hotPepperAPI: HotPepperAPIType) {
         $searchBarSearchButtonClicked
             .filter{1..<50 ~= $0.count}
             .withUnretained(self)
             .subscribe(onNext: { me, searchWord in
                 me.$hudShow.accept(.progress)
-                APIClient.searchShop(searchWord: searchWord, completion: { result in
+                hotPepperAPI.searchShop(searchWord: searchWord, completion: { result in
                     switch result {
                     case .success(let hotpepperResponse):
                         me.$shopData.accept(hotpepperResponse.results.shop)
