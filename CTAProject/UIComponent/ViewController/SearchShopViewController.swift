@@ -8,6 +8,8 @@
 import UIKit
 import PKHUD
 import SwiftMessages
+import RxSwift
+import RxCocoa
 
 final class SearchShopViewController: UIViewController {
 
@@ -19,6 +21,9 @@ final class SearchShopViewController: UIViewController {
     @IBOutlet private weak var searchShopBar: UISearchBar!
     
     private var shops: [Shop] = []
+    
+    private let searchShopViewModel = SearchShopViewModel()
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +38,49 @@ final class SearchShopViewController: UIViewController {
         shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
         shopTableView.delegate = self
         shopTableView.dataSource = self
+        
+        searchShopBar.rx.searchButtonClicked
+            .withLatestFrom(searchShopBar.rx.text.orEmpty)
+            .bind(to: searchShopViewModel.inputs.searchBarSearchButtonClicked)
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.shopData
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { me, shopData in
+                me.shops = shopData
+                me.shopTableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.hudShow
+            .subscribe(onNext: { type in
+                HUD.show(type)
+            })
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.hudHide
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { _ in
+                HUD.hide()
+            })
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.showPopup
+            .subscribe(onNext: {
+                let popupView = MessageView.viewFromNib(layout: .cardView)
+                SwiftMessages.show(view: popupView)
+            })
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.showAlert
+            .withUnretained(self)
+            .subscribe(onNext: { me, _ in
+                let alertView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+                me.view.addSubview(alertView)
+            })
+            .disposed(by: disposeBag)
+            
         // Do any additional setup after loading the view.
     }
     /*
@@ -70,38 +118,17 @@ extension SearchShopViewController: UISearchBarDelegate {
         guard let searchWord = searchShopBar.text else { return }
         //0字でポップアップ表示、50文字以上でアラート表示
         if searchWord.count == 0 {
-            let popupView = MessageView.viewFromNib(layout: .cardView)
-            popupView.configureTheme(.warning)
-            popupView.configureContent(title: L10n.noCharactersInput, body: "")
-            popupView.button?.isHidden = true
-            popupView.backgroundView.backgroundColor = .systemYellow
-            var config = SwiftMessages.Config()
-            config.presentationStyle = .center
-            SwiftMessages.show(config: config, view: popupView)
+//            let popupView = MessageView.viewFromNib(layout: .cardView)
+//            popupView.configureTheme(.warning)
+//            popupView.configureContent(title: L10n.noCharactersInput, body: "")
+//            popupView.button?.isHidden = true
+//            popupView.backgroundView.backgroundColor = .systemYellow
+//            var config = SwiftMessages.Config()
+//            config.presentationStyle = .center
+//            SwiftMessages.show(config: config, view: popupView)
         } else if searchWord.count >= 50 {
-            let alertView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-            view.addSubview(alertView)
-        } else {
-            HUD.show(.progress)
-            APIClient.searchShop(searchWord: searchWord, completion: { [weak self] result in
-                guard let me = self else { return }
-                switch result {
-                case .success(let hotpepperResponse):
-                    me.shops = hotpepperResponse.results.shop
-                    //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
-                    DispatchQueue.main.async {
-                        me.shopTableView.reloadData()
-                        HUD.hide()
-                    }
-                    print(hotpepperResponse)
-                case .failure(let error):
-                    print(error)
-                    HUD.show(.error)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        HUD.hide()
-                    }
-                }
-            })
+//            let alertView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+//            view.addSubview(alertView)
         }
     }
 }
