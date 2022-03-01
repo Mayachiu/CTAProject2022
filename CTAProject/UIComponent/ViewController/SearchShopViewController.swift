@@ -69,7 +69,13 @@ final class SearchShopViewController: UIViewController {
         searchShopViewModel.outputs.showPopup
             .subscribe(onNext: {
                 let popupView = MessageView.viewFromNib(layout: .cardView)
-                SwiftMessages.show(view: popupView)
+                popupView.configureTheme(.warning)
+                popupView.configureContent(title: L10n.noCharactersInput, body: "")
+                popupView.button?.isHidden = true
+                popupView.backgroundView.backgroundColor = .systemYellow
+                var config = SwiftMessages.Config()
+                config.presentationStyle = .center
+                SwiftMessages.show(config: config, view: popupView)
             })
             .disposed(by: disposeBag)
         
@@ -115,20 +121,5 @@ extension SearchShopViewController: UITableViewDataSource {
 extension SearchShopViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchShopBar.resignFirstResponder()
-        guard let searchWord = searchShopBar.text else { return }
-        //0字でポップアップ表示、50文字以上でアラート表示
-        if searchWord.count == 0 {
-//            let popupView = MessageView.viewFromNib(layout: .cardView)
-//            popupView.configureTheme(.warning)
-//            popupView.configureContent(title: L10n.noCharactersInput, body: "")
-//            popupView.button?.isHidden = true
-//            popupView.backgroundView.backgroundColor = .systemYellow
-//            var config = SwiftMessages.Config()
-//            config.presentationStyle = .center
-//            SwiftMessages.show(config: config, view: popupView)
-        } else if searchWord.count >= 50 {
-//            let alertView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-//            view.addSubview(alertView)
-        }
     }
 }
