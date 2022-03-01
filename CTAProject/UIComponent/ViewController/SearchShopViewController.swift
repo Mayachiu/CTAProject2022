@@ -67,7 +67,7 @@ final class SearchShopViewController: UIViewController {
             .disposed(by: disposeBag)
         
         searchShopViewModel.outputs.showPopup
-            .subscribe(onNext: {
+            .subscribe(onNext: { _ in
                 let popupView = MessageView.viewFromNib(layout: .cardView)
                 popupView.configureTheme(.warning)
                 popupView.configureContent(title: L10n.noCharactersInput, body: "")

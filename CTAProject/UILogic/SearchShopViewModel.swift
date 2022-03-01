@@ -5,7 +5,6 @@
 //  Created by 内山和輝 on 2022/02/24.
 //
 
-//import Foundation
 import RxSwift
 import RxCocoa
 import PKHUD
@@ -25,8 +24,8 @@ protocol SearchShopViewModelOutput { // Viewへ値を流す用のインターフ
 }
 
 protocol SearchShopViewModelType { //外部で型として使う部分。inputs、outputsとアクセスをわけ、入力と出力を明確にする
-    var inputs: SearchShopViewModelInput {get}
-    var outputs: SearchShopViewModelOutput {get}
+    var inputs: SearchShopViewModelInput{get}
+    var outputs: SearchShopViewModelOutput{get}
 }
 
 class SearchShopViewModel: SearchShopViewModelInput, SearchShopViewModelOutput {
@@ -75,11 +74,10 @@ class SearchShopViewModel: SearchShopViewModelInput, SearchShopViewModelOutput {
         
         $searchBarSearchButtonClicked
             .withUnretained(self)
-            .subscribe(onNext: { me, text in
-                print(text)
-                if text.count == 0 {
+            .subscribe(onNext: { me, searchWord in
+                if searchWord.count == 0 {
                     me.$showPopup.accept(())
-                } else if text.count >= 50 {
+                } else if searchWord.count >= 50 {
                     me.$showAlert.accept(())
                 }
             })
