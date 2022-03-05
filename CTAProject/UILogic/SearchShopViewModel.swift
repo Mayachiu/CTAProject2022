@@ -11,7 +11,7 @@ import PKHUD
 import SwiftMessages
 
 protocol SearchShopViewModelInput { // ViewからViewModelに流す用のインターフェース
-    var searchBarSearchButtonClicked: AnyObserver<String>{get}
+    var searchBarSearchButtonClicked: AnyObserver<Void>{get}
     var searchTextInput: AnyObserver<String>{get}
 }
 
@@ -31,7 +31,7 @@ protocol SearchShopViewModelType { //外部で型として使う部分。inputs�
 class SearchShopViewModel: SearchShopViewModelInput, SearchShopViewModelOutput {
     
     //Input
-    @AnyObserverWrapper var searchBarSearchButtonClicked: AnyObserver<String>
+    @AnyObserverWrapper var searchBarSearchButtonClicked: AnyObserver<Void>
     @AnyObserverWrapper var searchTextInput: AnyObserver<String>
     //Output
     @PublishRelayWrapper var shopData: Observable<[Shop]>
@@ -44,7 +44,8 @@ class SearchShopViewModel: SearchShopViewModelInput, SearchShopViewModelOutput {
     
     init(hotPepperAPI: HotPepperAPIType) {
         $searchBarSearchButtonClicked
-            .filter{1..<50 ~= $0.count}
+            .withLatestFrom($searchTextInput)
+            .filter{ 1..<50 ~= $0.count }
             .withUnretained(self)
             .subscribe(onNext: { me, searchWord in
                 me.$hudShow.accept(.progress)
@@ -73,6 +74,7 @@ class SearchShopViewModel: SearchShopViewModelInput, SearchShopViewModelOutput {
             .disposed(by: disposeBag)
         
         $searchBarSearchButtonClicked
+            .withLatestFrom($searchTextInput)
             .withUnretained(self)
             .subscribe(onNext: { me, searchWord in
                 if searchWord.count == 0 {

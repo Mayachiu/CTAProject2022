@@ -40,8 +40,11 @@ final class SearchShopViewController: UIViewController {
         shopTableView.dataSource = self
         
         searchShopBar.rx.searchButtonClicked
-            .withLatestFrom(searchShopBar.rx.text.orEmpty)
             .bind(to: searchShopViewModel.inputs.searchBarSearchButtonClicked)
+            .disposed(by: disposeBag)
+        
+        searchShopBar.rx.text.orEmpty
+            .bind(to: searchShopViewModel.inputs.searchTextInput)
             .disposed(by: disposeBag)
         
         searchShopViewModel.outputs.shopData
