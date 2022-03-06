@@ -36,8 +36,8 @@ final class SearchShopViewController: UIViewController {
         tabBar.tintColor = .systemYellow
         
         shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
-        shopTableView.delegate = self
-        shopTableView.dataSource = self
+        self.shopTableView.delegate = nil
+        self.shopTableView.dataSource = nil
         
         searchShopBar.rx.searchButtonClicked
             .bind(to: searchShopViewModel.inputs.searchBarSearchButtonClicked)
@@ -48,12 +48,10 @@ final class SearchShopViewController: UIViewController {
             .disposed(by: disposeBag)
         
         searchShopViewModel.outputs.shopData
-            .withUnretained(self)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { me, shopData in
-                me.shops = shopData
-                me.shopTableView.reloadData()
-            })
+            .bind(to: shopTableView.rx.items(cellIdentifier: ShopTableViewCell.identifier, cellType: ShopTableViewCell.self)) {
+                _, shops, cell in
+                cell.configureCell(shop: shops)
+            }
             .disposed(by: disposeBag)
         
         searchShopViewModel.outputs.hudShow
