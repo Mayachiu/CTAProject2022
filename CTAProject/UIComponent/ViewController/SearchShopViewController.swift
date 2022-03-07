@@ -36,8 +36,6 @@ final class SearchShopViewController: UIViewController {
         tabBar.tintColor = .systemYellow
         
         shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
-        self.shopTableView.delegate = nil
-        self.shopTableView.dataSource = nil
         
         searchShopBar.rx.searchButtonClicked
             .bind(to: searchShopViewModel.inputs.searchBarSearchButtonClicked)
@@ -100,23 +98,6 @@ final class SearchShopViewController: UIViewController {
     }
     */
 
-}
-
-// MARK: TableViewDelegate
-extension SearchShopViewController: UITableViewDelegate {
-}
-
-// MARK: TableViewDataSource
-extension SearchShopViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return shops.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
-        cell.configureCell(shop: shops[indexPath.row])
-        return cell
-    }
 }
 
 extension SearchShopViewController: UISearchBarDelegate {
