@@ -45,43 +45,44 @@ class SearchShopViewModel: SearchShopViewModelInput, SearchShopViewModelOutput {
     init(hotPepperAPI: HotPepperAPIType) {
         $searchBarSearchButtonClicked
             .withLatestFrom($searchTextInput)
-            .filter{ 1..<50 ~= $0.count }
             .withUnretained(self)
-            .subscribe(onNext: { me, searchWord in
-                me.$hudShow.accept(.progress)
-                hotPepperAPI.searchShop(searchWord: searchWord, completion: { result in
-                    switch result {
-                    case .success(let hotpepperResponse):
-                        me.$shopData.accept(hotpepperResponse.results.shop)
-                        me.$hudHide.accept(())
-                        print(hotpepperResponse)
-                    case .failure(let error):
-                        print(error)
-                        me.$hudShow.accept(.progress)
-                    }
-                })
-            })
-            .disposed(by: disposeBag)
-        
-        $hudShow
-            .withUnretained(self)
-            .delay(.seconds(4), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { me, hudContentType in
-                if case .error = hudContentType {
-                    me.$hudHide.accept(())
-                }
-            })
-            .disposed(by: disposeBag)
-        
-        $searchBarSearchButtonClicked
-            .withLatestFrom($searchTextInput)
-            .withUnretained(self)
-            .subscribe(onNext: { me, searchWord in
+            .do(onNext: { me, searchWord in
                 if searchWord.count == 0 {
                     me.$showPopup.accept(())
                 } else if searchWord.count >= 50 {
                     me.$showAlert.accept(())
                 }
+            })
+            .filter{ 1..<50 ~= $1.count }
+            .flatMapLatest { me, text -> Observable<Event<HotPepper>> in
+                me.$hudShow.accept(.progress)
+                return hotPepperAPI.searchShop(searchWord: text)
+                    .timeout(.milliseconds(Int(5000)), scheduler: ConcurrentMainScheduler.instance)
+                    .asObservable()
+                    .materialize()
+            }.observe(on: MainScheduler.instance)
+            .subscribe(with: self,
+                       onNext: { me, event in
+                switch event {
+                case .next(let hotpepperResponse):
+                    me.$shopData.accept(hotpepperResponse.results.shop)
+                    me.$hudHide.accept(())
+                    print(hotpepperResponse)
+                case .error(let error):
+                    me.$hudShow.accept(.error)
+                    print(error)
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        $hudShow
+            .withUnretained(self)
+            .filter { $1 == .error }
+            .delay(.milliseconds(700), scheduler: ConcurrentMainScheduler.instance)
+            .subscribe(onNext: { me, _ in
+                me.$hudHide.accept(())
             })
             .disposed(by: disposeBag)
     }

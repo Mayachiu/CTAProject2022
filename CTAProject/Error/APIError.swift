@@ -10,4 +10,5 @@ import Foundation
 enum APIError: Error {
     case textEncodingError
     case decodeError
+    case unexpectedError
 }

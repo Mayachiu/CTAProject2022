@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol HotPepperAPIType {
-    func searchShop(searchWord: String, completion: @escaping(Result<HotPepper, APIError>) -> Void )
+    func searchShop(searchWord: String) -> Single<HotPepper>
 }

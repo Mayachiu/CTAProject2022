@@ -59,7 +59,6 @@ final class SearchShopViewController: UIViewController {
             .disposed(by: disposeBag)
         
         searchShopViewModel.outputs.hudHide
-            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { _ in
                 HUD.hide()
             })
