@@ -47,8 +47,8 @@ final class SearchShopViewController: UIViewController {
         
         searchShopViewModel.outputs.shopData
             .bind(to: shopTableView.rx.items(cellIdentifier: ShopTableViewCell.identifier, cellType: ShopTableViewCell.self)) {
-                _, shops, cell in
-                cell.configureCell(shop: shops)
+                _, shop, cell in
+                cell.configureCell(shop: shop)
             }
             .disposed(by: disposeBag)
         
