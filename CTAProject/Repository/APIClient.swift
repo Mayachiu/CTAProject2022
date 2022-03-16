@@ -6,36 +6,41 @@
 //
 
 import Foundation
+import RxSwift
 
-enum APIClient {
-    static func searchShop(searchWord: String, completion: @escaping(Result<HotPepper, APIError>) -> Void )  {
+final class APIClient: HotPepperAPIType {
+    func searchShop(searchWord: String) -> Single<HotPepper> {
         let encodedSearchWord = searchWord.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
-        
-        //別ファイルからAPIキー読み込み
-        let APIKey = MyAPIKey.hotpepper
-        guard let url = URL(string: "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=" + APIKey + "&format=json&keyword=" + String(encodedSearchWord!)) else { return completion(.failure(.textEncodingError)) }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, responds, error) in
-            if let error = error {
-                print("情報の取得に失敗しました。:", error)
-                return
+        return Single<HotPepper>.create { observer in
+            let APIKey = MyAPIKey.hotpepper
+            guard let url = URL(string: "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=\(APIKey)&format=json&keyword=\(encodedSearchWord!)") else {
+                observer(.failure(APIError.textEncodingError))
+                return Disposables.create()
             }
             
-            if let data = data {
-                do {
-                    let hotpepper = try JSONDecoder().decode(HotPepper.self, from: data)
-                    completion(.success(hotpepper))
-                    print("json:", hotpepper)
-                } catch {
-                    completion(.failure(.decodeError))
-                    print("デコードに失敗しました。:", error)
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            
+            let task = URLSession.shared.dataTask(with: url) { (data, _, error) in
+                if let error = error {
+                    print("情報の取得に失敗しました。:", error)
+                    observer(.failure(APIError.unexpectedError))
+                    return
+                }
+                
+                if let data = data {
+                    do {
+                        let hotpepper = try JSONDecoder().decode(HotPepper.self, from: data)
+                        observer(.success(hotpepper))
+                        print("json:", hotpepper)
+                    } catch {
+                        observer(.failure(APIError.decodeError))
+                        print("デコードに失敗しました。:", error)
+                    }
                 }
             }
+            task.resume()
+            return Disposables.create()
         }
-        task.resume()
-        return
     }
 }

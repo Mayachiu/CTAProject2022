@@ -8,6 +8,8 @@
 import UIKit
 import PKHUD
 import SwiftMessages
+import RxSwift
+import RxCocoa
 
 final class SearchShopViewController: UIViewController {
 
@@ -20,6 +22,9 @@ final class SearchShopViewController: UIViewController {
     
     private var shops: [Shop] = []
     
+    private let searchShopViewModel = SearchShopViewModel(hotPepperAPI: APIClient())
+    private let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         topLabel.text = L10n.topLabelText
@@ -31,8 +36,55 @@ final class SearchShopViewController: UIViewController {
         tabBar.tintColor = .systemYellow
         
         shopTableView.register(ShopTableViewCell.nib, forCellReuseIdentifier: ShopTableViewCell.identifier)
-        shopTableView.delegate = self
-        shopTableView.dataSource = self
+        
+        searchShopBar.rx.searchButtonClicked
+            .bind(to: searchShopViewModel.inputs.searchBarSearchButtonClicked)
+            .disposed(by: disposeBag)
+        
+        searchShopBar.rx.text.orEmpty
+            .bind(to: searchShopViewModel.inputs.searchTextInput)
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.shopData
+            .bind(to: shopTableView.rx.items(cellIdentifier: ShopTableViewCell.identifier, cellType: ShopTableViewCell.self)) {
+                _, shop, cell in
+                cell.configureCell(shop: shop)
+            }
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.hudShow
+            .subscribe(onNext: { type in
+                HUD.show(type)
+            })
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.hudHide
+            .subscribe(onNext: { _ in
+                HUD.hide()
+            })
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.showPopup
+            .subscribe(onNext: { _ in
+                let popupView = MessageView.viewFromNib(layout: .cardView)
+                popupView.configureTheme(.warning)
+                popupView.configureContent(title: L10n.noCharactersInput, body: "")
+                popupView.button?.isHidden = true
+                popupView.backgroundView.backgroundColor = .systemYellow
+                var config = SwiftMessages.Config()
+                config.presentationStyle = .center
+                SwiftMessages.show(config: config, view: popupView)
+            })
+            .disposed(by: disposeBag)
+        
+        searchShopViewModel.outputs.showAlert
+            .withUnretained(self)
+            .subscribe(onNext: { me, _ in
+                let alertView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+                me.view.addSubview(alertView)
+            })
+            .disposed(by: disposeBag)
+            
         // Do any additional setup after loading the view.
     }
     /*
@@ -47,61 +99,8 @@ final class SearchShopViewController: UIViewController {
 
 }
 
-// MARK: TableViewDelegate
-extension SearchShopViewController: UITableViewDelegate {
-}
-
-// MARK: TableViewDataSource
-extension SearchShopViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return shops.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
-        cell.configureCell(shop: shops[indexPath.row])
-        return cell
-    }
-}
-
 extension SearchShopViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchShopBar.resignFirstResponder()
-        guard let searchWord = searchShopBar.text else { return }
-        //0字でポップアップ表示、50文字以上でアラート表示
-        if searchWord.count == 0 {
-            let popupView = MessageView.viewFromNib(layout: .cardView)
-            popupView.configureTheme(.warning)
-            popupView.configureContent(title: L10n.noCharactersInput, body: "")
-            popupView.button?.isHidden = true
-            popupView.backgroundView.backgroundColor = .systemYellow
-            var config = SwiftMessages.Config()
-            config.presentationStyle = .center
-            SwiftMessages.show(config: config, view: popupView)
-        } else if searchWord.count >= 50 {
-            let alertView = AlertView.nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-            view.addSubview(alertView)
-        } else {
-            HUD.show(.progress)
-            APIClient.searchShop(searchWord: searchWord, completion: { [weak self] result in
-                guard let me = self else { return }
-                switch result {
-                case .success(let hotpepperResponse):
-                    me.shops = hotpepperResponse.results.shop
-                    //クロージャの中はバックグラウンドスレッドになるからUIの更新をメインスレッドで行う
-                    DispatchQueue.main.async {
-                        me.shopTableView.reloadData()
-                        HUD.hide()
-                    }
-                    print(hotpepperResponse)
-                case .failure(let error):
-                    print(error)
-                    HUD.show(.error)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        HUD.hide()
-                    }
-                }
-            })
-        }
     }
 }
