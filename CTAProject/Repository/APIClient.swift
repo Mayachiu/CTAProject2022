@@ -13,7 +13,7 @@ final class APIClient: HotPepperAPIType {
         let encodedSearchWord = searchWord.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
         return Single<HotPepper>.create { observer in
             let APIKey = MyAPIKey.hotpepper
-            guard let url = URL(string: "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=" + APIKey + "&format=json&keyword=" + String(encodedSearchWord!)) else {
+            guard let url = URL(string: "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=\(APIKey)&format=json&keyword=\(encodedSearchWord!)") else {
                 observer(.failure(APIError.textEncodingError))
                 return Disposables.create()
             }
