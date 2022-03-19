@@ -27,8 +27,8 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="45" id="2JA-ER-YAx"/>
                                     </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain"/>
                                     <connections>
                                         <action selector="closeButtonClicked:" destination="iN0-l3-epB" eventType="touchUpInside" id="cJm-Ml-DYz"/>
                                     </connections>

@@ -5,11 +5,11 @@
 //  Created by 内山和輝 on 2022/01/13.
 //
 
-import UIKit
 import PKHUD
-import SwiftMessages
-import RxSwift
 import RxCocoa
+import RxSwift
+import SwiftMessages
+import UIKit
 
 final class SearchShopViewController: UIViewController {
 
@@ -46,8 +46,7 @@ final class SearchShopViewController: UIViewController {
             .disposed(by: disposeBag)
         
         searchShopViewModel.outputs.shopData
-            .bind(to: shopTableView.rx.items(cellIdentifier: ShopTableViewCell.identifier, cellType: ShopTableViewCell.self)) {
-                _, shop, cell in
+            .bind(to: shopTableView.rx.items(cellIdentifier: ShopTableViewCell.identifier, cellType: ShopTableViewCell.self)) { _, shop, cell in
                 cell.configureCell(shop: shop)
             }
             .disposed(by: disposeBag)
