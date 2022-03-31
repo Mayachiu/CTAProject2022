@@ -13,7 +13,7 @@ extension UIImage {
             return nil
         }
         do {
-            let data = try Data(contentsOf: url) //失敗したらcatchへ行き、do内のここから下の処理は実行されない
+            let data = try Data(contentsOf: url) // 失敗したらcatchへ行き、do内のここから下の処理は実行されない
             self.init(data: data)
         } catch {
             print("Error : \(error.localizedDescription)")
